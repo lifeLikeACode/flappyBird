@@ -5,6 +5,5 @@ export const  Resources = [
     ['pencilDown','res/pie_down.png'],
     ['birds','res/birds.png'],
     ['startButton','res/start_button.png']
-];
-console.log(Resources)
+]
 

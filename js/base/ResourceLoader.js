@@ -9,7 +9,6 @@ export class ResourceLoader {
             image.src = value
             this.map.set(key, image)
         }
-        console.log(this.map)
     }
 
     onLoaded(callback) {

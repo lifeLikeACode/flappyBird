@@ -5,6 +5,7 @@ import {BackGround} from "./js/runtime/BackGround.js"
 import {Land} from "./js/runtime/Land.js"
 import { DataStore } from "./js/base/DataStore.js"
 import { Birds } from "./js/player/Birds.js";
+import {StartButton} from "./js/player/StartButton.js";
 
 export class Main {
     constructor() {
@@ -28,7 +29,7 @@ export class Main {
                         .put('land',Land)
                         .put('pencils',[])
                         .put('birds',Birds)
-
+                        .put('startButton', StartButton)
         this.registerEvent()
         this.director.createPencil();
         this.director.run()

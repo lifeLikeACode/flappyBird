@@ -13,22 +13,22 @@ export class Birds extends Sprite{
       this.clippingY = [10, 10, 10]
       this.clippingWidth = [34, 34, 34]
       this.clippingHeight = [24,24,24]
-      this.birdX = window.innerWidth / 4;
-      this.birdsX = [this.birdX, this.birdX, this.birdX]
-      this.birdY = window.innerHeight / 2
-      this.birdsY = [this.birdY, this.birdY, this.birdY]
-      this.birdWidth = 34
-      this.birdsWidth = [this.birdWidth, this.birdWidth, this.birdWidth]
-      this.birdHeight = 24
-      this.birdsHeight = [this.birdHeight, this.birdHeight, this.birdHeight]
-      this.y = [this.birdY,this.birdY,this.birdY]
+      const birdX = window.innerWidth / 4;
+      this.birdsX = [birdX, birdX, birdX]
+      const birdY = window.innerHeight / 2
+      this.birdsY = [birdY, birdY, birdY]
+      const birdWidth = 34
+      this.birdsWidth = [birdWidth, birdWidth, birdWidth]
+      const birdHeight = 24
+      this.birdsHeight = [birdHeight, birdHeight, birdHeight]
+      this.y = [birdY,birdY,birdY]
       this.index = 0
       this.count = 0
       this.time = 0
 
     }
     draw() {
-      const speed = 0.02
+      const speed = 0.2
       this.count += speed
       if(this.index >= 2) {
         this.count = 0
@@ -42,7 +42,6 @@ export class Birds extends Sprite{
       const offsetY =  (g * this.time * (this.time - offsetUp)) / 2
 
       for(let i = 0;i<=2; i++) {
-        console.log(this.birdsY[i],this.y[i] , offsetY)
         this.birdsY[i] = this.y[i] + offsetY
       }
       this.time++
