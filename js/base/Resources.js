@@ -6,4 +6,5 @@ export const  Resources = [
     ['birds','res/birds.png'],
     ['startButton','res/start_button.png']
 ];
+console.log(Resources)
 

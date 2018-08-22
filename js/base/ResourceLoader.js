@@ -1,23 +1,29 @@
 //资源文件加载器，确保canvas在图片资源加载完成后才进行渲染
-import {Resources} from './Resources.js';
+import {Resources} from './Resources.js'
 export class ResourceLoader {
     constructor() {
         this.map= new Map(Resources)
         for(let [key, value] of this.map){
-            const image = new Image();
-            //wx.createImage();
+            const image = new Image()
+            //wx.createImage()
             image.src = value
-            this.map.set(key, image);
+            this.map.set(key, image)
         }
         console.log(this.map)
     }
 
     onLoaded(callback) {
-        let loadedCount = 0;
+        let loadedCount = 0
         for(let value of this.map.values()) {
-            console.log(value)
+            
             value.onload  =  () => {
-                loadedCount++;
+                loadedCount++
+                if(loadedCount >= this.map.size) {
+                    callback(this.map)
+                }
+            }
+            value.onerror = () => {
+                loadedCount++
                 if(loadedCount >= this.map.size) {
                     callback(this.map)
                 }
@@ -27,6 +33,6 @@ export class ResourceLoader {
     }
 
     static create() {
-        return new ResourceLoader();
+        return new ResourceLoader()
     }
 }
