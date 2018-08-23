@@ -17,8 +17,8 @@ export class Director {
     }
 
     createPencil() {
-        const minTop = window.innerHeight / 8
-        const maxTop = window.innerHeight / 2
+        const minTop = DataStore.getInstance().canvas.height / 8
+        const maxTop = DataStore.getInstance().canvas.height / 2
         const top = minTop + Math.random() * (maxTop - minTop)
         this.dataStore.get('pencils').push(new UpPencil(top))
         this.dataStore.get('pencils').push(new DownPencil(top))
@@ -36,10 +36,10 @@ export class Director {
 
     static isStrike(bird,pencil) {
         let s = false
-        if(bird.top > pencil.bottom ||
-            bird.bottom < pencil.top ||
-            bird.right < pencil.left ||
-            bird.left > pencil.right
+        if(bird.top >= pencil.bottom ||
+            bird.bottom <= pencil.top ||
+            bird.right <= pencil.left ||
+            bird.left >= pencil.right
         ) {
             s = true
         }
@@ -50,6 +50,7 @@ export class Director {
         const birds = this.dataStore.get('birds')
         const land = this.dataStore.get('land')
         const pencils = this.dataStore.get('pencils')
+        const score = this.dataStore.get('score')
         if(birds.birdsY[0] + birds.birdsHeight[0] >= land.y){
             this.isGameOver = true
             return
@@ -78,6 +79,13 @@ export class Director {
                 return
             }
         }
+
+        if(birds.birdsX[0] > pencils[0].x + pencils[0].width && score.flag) {
+            
+            score.scoreNumber ++
+            score.flag = false
+            
+        }
     }
 
     run() {
@@ -87,20 +95,23 @@ export class Director {
 
             cancelAnimationFrame(this.dataStore.get('raf'))
             this.dataStore.get('startButton').draw()
+            wx.triggerGC()
         }else{
             this.dataStore.get('background').draw()
             const pencils = this.dataStore.get('pencils')
             if(pencils[0].x + pencils[0].width <= 0 && pencils.length === 4){
                 pencils.shift();
                 pencils.shift();
+                this.dataStore.get('score').flag = true
             }
-            if(pencils[0].x <= (window.innerWidth - pencils[0].width) / 2 && pencils.length === 2) {
+            if(pencils[0].x <= (DataStore.getInstance().canvas.width - pencils[0].width) / 2 && pencils.length === 2) {
                 this.createPencil()
             }
             this.dataStore.get('pencils').forEach((value) => {
                 value.draw()
             })
             this.dataStore.get('land').draw()
+            this.dataStore.get('score').draw()
             this.createBird()
             this.raf = requestAnimationFrame(() => this.run())
             this.dataStore.put('raf',this.raf)
